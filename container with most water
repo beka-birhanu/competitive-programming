@@ -14,3 +14,6 @@ class Solution:
                 right -= 1
                 
         return maxA
+
+
+# i dont know if this could work when the widht more significantly changing than the height
