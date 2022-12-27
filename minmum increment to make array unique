@@ -1,0 +1,11 @@
+#class Solution:
+#   def minIncrementForUnique(self, nums: List[int]) -> int:
+#        k = 0
+#       counter = Counter(nums)
+#        for i in range(len(nums)):
+#           while counter[nums[i]] > 1:
+#               counter[nums[i]] -=1
+#               k+=counter[nums[i]]
+#               nums[i]+=counter[nums[i]]
+#               counter[nums[i]] +=1
+#        return k 
