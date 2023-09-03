@@ -1,0 +1,40 @@
+# Runtime 76% , Memory 82%
+class Solution:
+    def findCircleNum(self, isConnected: List[List[int]]) -> int:
+        n = len(isConnected)
+        visited = [0] * n
+        count = 0
+
+        for i in range(n):
+            if visited[i] == 0:
+                queue = deque([i])
+                visited[i] = 1
+                while queue:
+                    city = queue.popleft()
+                    for j in range(n):
+                        if isConnected[city][j] == 1 and visited[j] == 0:
+                            queue.append(j)
+                            visited[j] = 1
+                count += 1
+
+        return count
+# Rumtime 94% , Memory 62%
+class Solution:
+    def findCircleNum(self, isConnected: List[List[int]]) -> int:
+        n = len(isConnected)
+        visited = [0] * n
+        count = 0
+
+        for i in range(n):
+            if visited[i] == 0:
+                stack = [i]
+                visited[i] = 1
+                while stack:
+                    city = stack.pop()
+                    for j in range(n):
+                        if isConnected[city][j] == 1 and visited[j] == 0:
+                            stack.append(j)
+                            visited[j] = 1
+                count += 1
+
+        return count
