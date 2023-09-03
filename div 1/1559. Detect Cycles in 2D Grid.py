@@ -1,6 +1,7 @@
 class Solution:
     def containsCycle(self, grid: List[List[str]]) -> bool:
         m, n = len(grid), len(grid[0])
+        
         def dfs(i,j):
             stack = [(i,j,0,0)]
             while stack:
@@ -15,6 +16,7 @@ class Solution:
                             grid[cR][cC] = grid[cR][cC].upper()
                             stack.append((cR,cC,r,c))
             return False
+            
         for i in range(m):
             for j in range(n):
                 if grid[i][j].islower():
