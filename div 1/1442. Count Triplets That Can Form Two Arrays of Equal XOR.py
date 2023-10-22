@@ -12,4 +12,5 @@ class Solution:
                 d[s][1]+=1
             else:
                 d[s]=[i+1,1]
+                
         return ans
