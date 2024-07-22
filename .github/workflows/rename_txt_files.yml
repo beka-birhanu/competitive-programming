@@ -1,0 +1,28 @@
+name: Rename Files
+
+on:
+  workflow_dispatch: # Allows manual triggering from the GitHub Actions tab
+  # You can also set this to `push`, `pull_request`, or other events as needed.
+
+jobs:
+  rename:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Bash
+      run: sudo apt-get install -y bash
+
+    - name: Run rename script
+      run: |
+        chmod +x rename_files.sh
+        ./rename_files.sh
+
+    - name: Commit changes
+      uses: EndBug/add-and-commit@v9
+      with:
+        author_name: GitHub Actions
+        author_email: actions@github.com
+        message: 'Rename .txt files to .go'
