@@ -1,0 +1,32 @@
+# Problem: Product of Array Except Self - https://leetcode.com/problems/product-of-array-except-self/
+
+func productExceptSelf(nums []int) []int {
+    output := make([]int, len(nums))
+
+    total := 1
+    zeroIndex := -1
+    for i := 0; i < len(nums); i++ {
+        if nums[i] != 0 {
+            total = total * nums[i]
+            continue
+        }
+        // has zero
+        if zeroIndex == -1 {
+            zeroIndex = i
+            continue
+        }
+        // more than one zeroes
+        return output
+    }
+
+    if zeroIndex > -1 {
+        output[zeroIndex] = total
+        return output
+    }
+
+    for i := 0; i < len(nums); i++ {
+        output[i] = total/nums[i]
+    }
+
+    return output
+}
