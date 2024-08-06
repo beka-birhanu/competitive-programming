@@ -1,0 +1,50 @@
+# Problem: Sort the Jumbled Numbers - https://leetcode.com/problems/sort-the-jumbled-numbers/
+
+func sortJumbled(mapping []int, nums []int) []int {
+	translate := func(num int, mapping []int) int {
+		if num == 0 {
+			return mapping[0]
+		}
+
+		translatedNum := 0
+		power := 0
+
+		for num > 0 {
+			digit := num % 10
+			translatedNum += mapping[digit] * int(math.Pow(10, float64(power)))
+			num /= 10
+			power++
+		}
+
+		return translatedNum
+	}
+
+	type translated struct {
+		originalNum int
+		translatedNum int
+		index int
+	}
+
+	translatedNums := make([]translated, len(nums))
+	for idx, num := range nums {
+		translatedNums[idx] = translated{
+			originalNum: num,
+			translatedNum: translate(num, mapping),
+			index: idx,
+		}
+	}
+
+	sort.Slice(translatedNums, func(i, j int) bool {
+		if translatedNums[i].translatedNum == translatedNums[j].translatedNum {
+			return translatedNums[i].index < translatedNums[j].index
+		}
+		return translatedNums[i].translatedNum < translatedNums[j].translatedNum
+	})
+
+	result := make([]int, len(nums))
+	for idx, t := range translatedNums {
+		result[idx] = t.originalNum
+	}
+
+	return result
+}
