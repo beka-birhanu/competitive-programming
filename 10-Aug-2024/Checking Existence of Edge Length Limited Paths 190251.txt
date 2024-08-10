@@ -1,0 +1,50 @@
+# Problem: Checking Existence of Edge Length Limited Paths - https://leetcode.com/problems/checking-existence-of-edge-length-limited-paths/
+
+
+type Query struct {
+	p, q, limit, index int
+}
+
+func find(parents []int, i int) int {
+	if parents[i] != i {
+		parents[i] = find(parents, parents[i])
+	}
+	return parents[i]
+}
+
+func distanceLimitedPathsExist(n int, edgeList [][]int, queries [][]int) []bool {
+	queryList := make([]Query, len(queries))
+	for i, query := range queries {
+		queryList[i] = Query{p: query[0], q: query[1], limit: query[2], index: i}
+	}
+
+	sort.Slice(queryList, func(i, j int) bool {
+		return queryList[i].limit < queryList[j].limit
+	})
+	sort.Slice(edgeList, func(i, j int) bool {
+		return edgeList[i][2] < edgeList[j][2]
+	})
+
+	// Initialize union-find structure
+	parents := make([]int, n)
+	for i := range parents {
+		parents[i] = i
+	}
+
+	result := make([]bool, len(queries))
+	j := 0
+
+	for _, query := range queryList {
+		for j < len(edgeList) && edgeList[j][2] < query.limit {
+			u, v := edgeList[j][0], edgeList[j][1]
+			pU, pV := find(parents, u), find(parents, v)
+			if pU != pV {
+				parents[pU] = pV
+			}
+			j++
+		}
+		result[query.index] = find(parents, query.p) == find(parents, query.q)
+	}
+
+	return result
+}
